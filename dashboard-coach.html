@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportClub - Dashboard Coach</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --purple: #1e1340;
+            --gold: #f5a800;
+            --bg-light: #f4f5f7;
+            --text-dark: #2d2d2d;
+            --gray-muted: #6c757d;
+            --border-color: #e9ecef;
+            --kpi-bg: #fff9e6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside.sidebar {
+            width: 260px;
+            background-color: var(--purple);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            padding: 2.5rem 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            color: var(--gold);
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            width: 100%;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            padding: 1.1rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: white;
+            border-radius: 4px;
+            margin: 0 1rem;
+            padding: 1.1rem 1rem;
+        }
+
+        .logout-link {
+            margin-top: auto;
+            color: #ff6b6b !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem !important;
+        }
+
+        /* Main Content */
+        main.main-content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            padding: 2.5rem;
+        }
+
+        header.dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        header.dashboard-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.2rem;
+            color: var(--purple);
+            line-height: 1;
+        }
+
+        .perfil-tag {
+            color: var(--gray-muted);
+            font-size: 0.95rem;
+        }
+
+        .content-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.1rem;
+            color: var(--purple);
+            margin-bottom: 1.8rem;
+            position: relative;
+            padding-bottom: 0.4rem;
+            display: inline-block;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* KPI Box */
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .kpi-card {
+            background-color: var(--kpi-bg);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 1.8rem;
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            color: var(--purple);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            color: var(--gray-muted);
+            font-weight: 500;
+            padding: 1rem 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        td {
+            padding: 1.4rem 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            aside.sidebar { position: relative; width: 100%; height: auto; padding: 1.5rem 0; }
+            .logo { margin-bottom: 1.5rem; text-align: center; }
+            .sidebar-menu { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            main.main-content { margin-left: 0; width: 100%; padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">SPORTCLUB</div>
+        <nav class="sidebar-menu">
+            <a href="#" class="active">Inicio</a>
+            <a href="#section-metricas">Resumen General</a>
+            <a href="#section-alumnos">Listado de Alumnos</a>
+            <a href="login.html" class="logout-link">Cerrar Sesión</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>PANEL DEL ENTRENADOR</h1>
+            <div class="perfil-tag">Perfil: Coach Staff</div>
+        </header>
+
+        <div class="content-stack">
+            
+            <!-- SECCIÓN METRICAS -->
+            <section id="section-metricas" class="card">
+                <h2 class="card-title">MÉTRICAS DEL MES</h2>
+                <div class="kpi-container">
+                    <div class="kpi-card">
+                        <div class="kpi-value">34</div>
+                        <div class="kpi-label">Alumnos Activos Asignados</div>
+                    </div>
+                    <div class="kpi-card" style="background-color: #f4f5f7; border-color: var(--border-color);">
+                        <div class="kpi-value" style="color: var(--gray-muted);">18</div>
+                        <div class="kpi-label">Clases Dirigidas</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN ALUMNOS -->
+            <section id="section-alumnos" class="card">
+                <h2 class="card-title">MIS ALUMNOS ASIGNADOS (5)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>RUT</th>
+                            <th>Nombre Completo</th>
+                            <th>Plan Activo</th>
+                            <th>Rendimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12.345.678-9</td>
+                            <td>Juan Pérez Muñoz</td>
+                            <td>Anual VIP Black</td>
+                            <td>Excelente</td>
+                        </tr>
+                        <tr>
+                            <td>18.765.432-1</td>
+                            <td>María José Delgado</td>
+                            <td>Mensual Estudiante</td>
+                            <td>Regular</td>
+                        </tr>
+                        <tr>
+                            <td>15.987.654-K</td>
+                            <td>Carlos Silva Araya</td>
+                            <td>Semestral Full</td>
+                            <td>Excelente</td>
+                        </tr>
+                        <tr>
+                            <td>20.123.456-7</td>
+                            <td>Valentina Rojas Soto</td>
+                            <td>Anual VIP Black</td>
+                            <td>Destacado</td>
+                        </tr>
+                        <tr>
+                            <td>11.456.789-0</td>
+                            <td>Pedro Fuentes Espinosa</td>
+                            <td>Pase Diario</td>
+                            <td>Inicial</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </main>
+
+</body>
+</html>

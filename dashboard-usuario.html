@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportClub - Dashboard Usuario</title>
+    <!-- Google Fonts Oficiales de la Pauta -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --purple: #1e1340;
+            --gold: #f5a800;
+            --bg-light: #f4f5f7;
+            --text-dark: #2d2d2d;
+            --gray-muted: #6c757d;
+            --green-badge: #d4f4e2;
+            --green-text: #1e7e34;
+            --border-color: #e9ecef;
+        }
+
+        /* Hace que el movimiento por las anclas sea fluido */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Barra Lateral Izquierda (Sidebar) */
+        aside.sidebar {
+            width: 260px;
+            background-color: var(--purple);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            padding: 2.5rem 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            color: var(--gold);
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            width: 100%;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            padding: 1.1rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        /* Simulación de la opción seleccionada en tu imagen */
+        .sidebar-menu a.active, .sidebar-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: white;
+            border-radius: 4px;
+            margin: 0 1rem;
+            padding: 1.1rem 1rem;
+        }
+
+        .logout-link {
+            margin-top: auto;
+            color: #ff6b6b !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem !important;
+        }
+
+        /* Contenedor Principal */
+        main.main-content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            padding: 2.5rem;
+        }
+
+        /* Encabezado Superior */
+        header.dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        header.dashboard-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.2rem;
+            color: var(--purple);
+            letter-spacing: 0.5px;
+            line-height: 1;
+        }
+
+        .perfil-tag {
+            color: var(--gray-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Distribución en Columnas */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2.1fr 0.9fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Tarjetas (Contenedores Blancos) */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.1rem;
+            color: var(--purple);
+            margin-bottom: 1.8rem;
+            position: relative;
+            padding-bottom: 0.4rem;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* Tabla de Reservas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            color: var(--gray-muted);
+            font-weight: 500;
+            padding: 1rem 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        td {
+            padding: 1.4rem 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Etiqueta Verde "Confirmada" */
+        .badge-success {
+            background-color: var(--green-badge);
+            color: var(--green-text);
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        /* Listado de Clases Disponibles */
+        .clase-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .clase-item:last-child {
+            border-bottom: none;
+        }
+
+        .clase-info h4 {
+            font-size: 1.15rem;
+            color: var(--purple);
+            margin-bottom: 0.3rem;
+            font-weight: bold;
+        }
+
+        .clase-info p {
+            color: var(--gray-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Botones del Dashboard */
+        .btn-purple {
+            background-color: var(--purple);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-purple:hover {
+            opacity: 0.9;
+        }
+
+        /* Columna Derecha: Mi Perfil Rápido */
+        .profile-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar-circle {
+            width: 85px;
+            height: 85px;
+            background-color: var(--purple);
+            color: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.1rem;
+            font-weight: bold;
+            margin-bottom: 1.2rem;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .profile-card h3 {
+            color: var(--purple);
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.2rem;
+        }
+
+        .socio-number {
+            color: var(--gray-muted);
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-details {
+            width: 100%;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Vista de adaptabilidad para pantallas medianas/pequeñas */
+        @media (max-width: 950px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            aside.sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 1.5rem 0;
+            }
+            .logo {
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+            .sidebar-menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sidebar-menu a.active, .sidebar-menu a:hover {
+                margin: 0 0.5rem;
+            }
+            main.main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA LATERAL (Navegación con Anclas listas) -->
+    <aside class="sidebar">
+        <div class="logo">SPORTCLUB</div>
+        <nav class="sidebar-menu">
+            <a href="#" class="active">Inicio</a>
+            <a href="#section-reservas">Mis Reservas</a>
+            <a href="#section-clases">Clases Disponibles</a>
+            <a href="#section-perfil">Mi Perfil</a>
+            <a href="login.html" class="logout-link">Cerrar Sesión</a>
+        </nav>
+    </aside>
+
+    <!-- ÁREA DE CONTENIDO -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>¡BIENVENIDO DE VUELTA, ABEL PARRA!</h1>
+            <div class="perfil-tag">Perfil: Alumno Regular</div>
+        </header>
+
+        <div class="dashboard-grid">
+            
+            <!-- COLUMNA IZQUIERDA -->
+            <div class="left-column">
+                
+                <!-- SECCIÓN: MIS RESERVAS -->
+                <section id="section-reservas" class="card">
+                    <h2 class="card-title">MIS PRÓXIMAS RESERVAS (5)</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Clase</th>
+                                <th>Coach</th>
+                                <th>Fecha / Hora</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Crossfit Pro</strong></td>
+                                <td>Felipe M.</td>
+                                <td>Hoy, 19:00 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Spinning Avanzado</strong></td>
+                                <td>María J.</td>
+                                <td>Mañana, 08:30 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Entrenamiento Funcional</strong></td>
+                                <td>Carlos T.</td>
+                                <td>03 de Jun, 10:00 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Powerlifting Intro</strong></td>
+                                <td>Felipe M.</td>
+                                <td>05 de Jun, 18:00 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Yoga y Flexibilidad</strong></td>
+                                <td>Elena R.</td>
+                                <td>07 de Jun, 09:00 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- SECCIÓN: CLASES DISPONIBLES -->
+                <section id="section-clases" class="card">
+                    <h2 class="card-title">CLASES DISPONIBLES PARA INSCRIPCIÓN (3)</h2>
+                    
+                    <div class="clase-item">
+                        <div class="clase-info">
+                            <h4>Boxeo Formativo</h4>
+                            <p>Lunes y Miércoles 20:00 - Coach Arturo S. (12 cupos)</p>
+                        </div>
+                        <button class="btn-purple">Inscribir</button>
+                    </div>
+
+                    <div class="clase-item">
+                        <div class="clase-info">
+                            <h4>Pilates Reformer</h4>
+                            <p>Martes y Jueves 11:00 - Coach Elena R. (5 cupos)</p>
+                        </div>
+                        <button class="btn-purple">Inscribir</button>
+                    </div>
+
+                    <div class="clase-item">
+                        <div class="clase-info">
+                            <h4>Zumba Fitness</h4>
+                            <p>Viernes y Sábado 18:30 - Coach María J. (15 cupos)</p>
+                        </div>
+                        <button class="btn-purple">Inscribir</button>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- COLUMNA DERECHA: MI PERFIL -->
+            <aside id="section-perfil" class="card profile-card">
+                <h2 class="card-title">MI PERFIL RÁPIDO</h2>
+                
+                <div class="avatar-circle">AP</div>
+                
+                <h3>Abel Parra Honores</h3>
+                <div class="socio-number">Socio N° 45821</div>
+                
+                <div class="divider"></div>
+                
+                <div class="profile-details">
+                    <p><strong>Plan:</strong> Anual VIP Black</p>
+                    <p><strong>Evaluación:</strong> Al día (Mayo 2026)</p>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+</body>
+</html>

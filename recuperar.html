@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SportClub – Recuperar Contraseña</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f0f0f5;
+      --card-bg: #ffffff;
+      --purple: #1e1340;
+      --gold: #f5a800;
+      --text: #1e1340;
+      --muted: #888899;
+      --border: #d8d8e8;
+      --input-bg: #f7f7fb;
+      --radius: 14px;
+      --success-bg: #d4edda;
+      --success-text: #155724;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 2.2rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 40px rgba(30,19,64,0.15);
+    }
+    .title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+    form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .form-group input {
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.78rem 1rem;
+      font-size: 0.92rem;
+    }
+    .alert-success {
+      background-color: var(--success-bg);
+      color: var(--success-text);
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      text-align: center;
+      margin-bottom: 1.2rem;
+      border: 1px solid #c3e6cb;
+      display: none; /* Se muestra al enviar */
+    }
+    .btn-submit {
+      background: var(--purple);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.85rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      width: 100%; 
+      transition: all 0.3s ease; 
+    }
+
+    .btn-submit:hover { 
+      background: var(--gold); 
+      color: var(--purple); 
+      transform: translateY(-2px);
+    }
+    .back-link a { color: var(--purple); text-decoration: none; }
+    .back-link a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <main class="card">
+    <h1 class="title">RECUPERAR ACCESO</h1>
+    <p class="desc">Ingresa tu correo institucional o personal para restablecer tu contraseña.</p>
+    
+    <div id="successMsg" class="alert-success">
+      ✓ Se ha enviado un enlace de recuperación a su correo electrónico.
+    </div>
+
+    <form onsubmit="document.getElementById('successMsg').style.display = 'block'; return false;">
+      <div class="form-group">
+        <label for="recovery-email">Correo Electrónico</label>
+        <input type="email" id="recovery-email" placeholder="ejemplo@sportclub.cl" required />
+      </div>
+      <button type="submit" class="btn-submit">ENVIAR ENLACE</button>
+    </form>
+    
+    <div class="back-link">
+      <a href="login.html">Volver al Login</a>
+    </div>
+  </main>
+
+</body>
+</html>
