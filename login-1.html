@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SportClub – Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --bg:       #f0f0f5;
+      --card-bg:  #ffffff;
+      --purple:   #1e1340;
+      --gold:     #f5a800;
+      --text:     #1e1340;
+      --muted:    #888899;
+      --border:   #d8d8e8;
+      --input-bg: #f7f7fb;
+      --radius:   14px;
+      --shadow:   0 10px 40px rgba(30,19,64,0.15);
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(245,168,0,0.14) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(30,19,64,0.09) 0%, transparent 50%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2.8rem 2.4rem 2.2rem;
+      width: 100%;
+      max-width: 400px;
+    }
+    .login-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .form-group input {
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.78rem 1rem;
+      font-size: 0.92rem;
+      color: var(--text);
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(30,19,64,0.09);
+    }
+    .btn-submit {
+      display: block;
+      text-align: center;
+      background: var(--purple);
+      color: white;
+      padding: 0.85rem;
+      border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      width: 100%;
+      border: none;
+      transition: all 0.3s ease;
+    }
+    .btn-submit:hover { 
+      background: var(--gold); 
+      color: var(--purple); 
+      transform: translateY(-2px);
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.3rem 0 0.9rem;
+    }
+    .links-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      font-size: 0.84rem;
+    }
+    .links-row a {
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .links-row a:hover {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+    .reviewer-footer {
+      margin-top: 2rem;
+      text-align: center;
+      background: rgba(30, 19, 64, 0.05);
+      padding: 0.8rem;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 100%;
+      border: 1px dashed var(--purple);
+    }
+    .reviewer-footer p {
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: var(--purple);
+      margin-bottom: 0.4rem;
+    }
+    .reviewer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+    .reviewer-links a {
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .login-logo {
+    display: block;
+    max-width: 260px; /* Controla el ancho máximo del logo */
+    width: 100%;
+    height: auto;
+    margin: 0 auto 2rem; /* Lo centra automáticamente y le da espacio con el formulario */
+    }
+    .reviewer-links a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+  <main class="card">
+    <img src="Logo Sportclub.png" alt="SportClub Logo" class="login-logo">
+    <form id="formulariologin">
+      <div class="form-group">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" placeholder="ejemplo@sportclub.cl" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-submit">INGRESAR</button>
+      <p id="error-msg" style="
+          display: none;
+          color: #d32f2f;
+          font-size: 0.88rem;
+          font-weight: 600;
+          text-align: center;
+          margin-top: 0.4rem;
+          padding: 0.5rem 0.8rem;
+          background: #fff0f0;
+          border: 1px solid #f5c2c2;
+          border-radius: 6px;
+      "></p>
+    </form>
+    
+    <hr class="divider" />
+    
+    <div class="links-row">
+      <a href="registro.html">Registrarse</a>
+      <span style="color: var(--border);">|</span>
+      <a href="recuperar.html">¿Olvidaste tu contraseña?</a>
+    </div>
+  </main>
+
+  <footer class="reviewer-footer">
+    <p>ACCESOS RÁPIDOS EVALUACIÓN (VISTA DOCENTE):</p>
+    <div class="reviewer-links">
+      <a href="dashboard-coach.html">→ Vista Coach</a>
+      <a href="dashboard-admin.html">→ Vista Admin</a>
+    </div>
+  </footer>
+<script src="./login.js"></script>
+</body>
+</html>

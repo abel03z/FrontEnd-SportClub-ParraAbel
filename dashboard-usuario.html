@@ -356,8 +356,8 @@
     <!-- ÁREA DE CONTENIDO -->
     <main class="main-content">
         <header class="dashboard-header">
-            <h1>¡BIENVENIDO DE VUELTA, ABEL PARRA!</h1>
-            <div class="perfil-tag">Perfil: Alumno Regular</div>
+            <h1 id="welcome-title">¡BIENVENIDO DE VUELTA!</h1>
+            <div class="perfil-tag">Perfil: <span id="perfil-tag-text">Alumno Regular</span></div>
         </header>
 
         <div class="dashboard-grid">
@@ -447,9 +447,9 @@
             <aside id="section-perfil" class="card profile-card">
                 <h2 class="card-title">MI PERFIL RÁPIDO</h2>
                 
-                <div class="avatar-circle">AP</div>
+                <div class="avatar-circle" id="avatar-initials">??</div>
                 
-                <h3>Abel Parra Honores</h3>
+                <h3 id="profile-name">Cargando...</h3>
                 <div class="socio-number">Socio N° 45821</div>
                 
                 <div class="divider"></div>
@@ -463,5 +463,34 @@
         </div>
     </main>
 
+<script>
+  // Leer usuario desde localStorage
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // Si no hay sesión activa, redirigir al login
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    // Mostrar nombre en el header
+    document.getElementById("welcome-title").textContent =
+      "¡BIENVENIDO DE VUELTA, " + user.fullname.toUpperCase() + "!";
+
+    // Iniciales para el avatar (primeras 2 letras de las primeras 2 palabras)
+    const initials = user.fullname
+      .split(" ")
+      .slice(0, 2)
+      .map(n => n[0].toUpperCase())
+      .join("");
+    document.getElementById("avatar-initials").textContent = initials;
+
+    // Nombre completo en tarjeta de perfil
+    document.getElementById("profile-name").textContent = user.fullname;
+  }
+
+  // Cerrar sesión: limpiar localStorage al hacer clic
+  document.querySelector(".logout-link").addEventListener("click", function () {
+    localStorage.removeItem("user");
+  });
+</script>
 </body>
 </html>

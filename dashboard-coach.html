@@ -235,7 +235,7 @@
     <main class="main-content">
         <header class="dashboard-header">
             <h1>PANEL DEL ENTRENADOR</h1>
-            <div class="perfil-tag">Perfil: Coach Staff</div>
+            <div class="perfil-tag">Coach: <span id="coach-name">Cargando...</span></div>
         </header>
 
         <div class="content-stack">
@@ -305,5 +305,18 @@
         </div>
     </main>
 
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("coach-name").textContent = user.fullname;
+  }
+
+  document.querySelector(".logout-link").addEventListener("click", function () {
+    localStorage.removeItem("user");
+  });
+</script>
 </body>
 </html>

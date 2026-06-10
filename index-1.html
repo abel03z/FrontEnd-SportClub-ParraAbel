@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SportClub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:    #1e1340;
+      --purple-md: #2d1f5e;
+      --gold:      #f5a800;
+      --gold-dark: #d48f00;
+      --bg:        #f4f5f7;
+      --card:      #ffffff;
+      --text:      #1e1340;
+      --muted:     #6c757d;
+      --border:    #e9ecef;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(30, 19, 64, 0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 68px;
+    }
+
+    .logo-img {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+
+    nav { display: flex; gap: 2rem; align-items: center; }
+    nav a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--gold); }
+
+    .nav-login {
+      background: var(--gold);
+      color: var(--purple) !important;
+      padding: 0.45rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-login:hover {
+      background: white !important;
+      color: var(--purple) !important;
+    }
+
+    /* ── HERO ── */
+    #inicio {
+      position: relative;
+      min-height: 88vh;
+      display: flex;
+      align-items: center;
+      padding: 4rem 2.5rem;
+      overflow: hidden;
+      background: var(--purple);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 65% at 78% 50%, rgba(245,168,0,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 15% 85%, rgba(245,168,0,0.06) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Línea dorada decorativa izquierda */
+    #inicio::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--gold);
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 680px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--purple);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 1.4rem;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: 2px;
+      color: #ffffff;
+      margin-bottom: 1.4rem;
+    }
+    h1 em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 2.2rem;
+    }
+
+    /* ── BOTONES ── */
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--purple);
+      border: 2px solid var(--gold);
+    }
+    .btn-primary:hover {
+      background: var(--gold-dark);
+      border-color: var(--gold-dark);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: #ffffff;
+      border: 2px solid rgba(255,255,255,0.35);
+      margin-left: 1rem;
+    }
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    /* Variante clara para secciones claras */
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--purple);
+      border: 2px solid var(--border);
+    }
+    .btn-outline-dark:hover {
+      border-color: var(--purple);
+      background: var(--purple);
+      color: white;
+    }
+
+    /* Stats del hero */
+    .hero-stats {
+      position: absolute;
+      right: 2.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: flex-end;
+    }
+    .stat { text-align: right; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* ── SECTION COMÚN ── */
+    section { padding: 5rem 2.5rem; }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      letter-spacing: 1px;
+      margin-bottom: 3rem;
+      color: var(--purple);
+    }
+
+    /* ── PLANES ── */
+    #planes { background: var(--bg); }
+
+    .planes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .plan-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .plan-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--border);
+      transition: background 0.25s;
+    }
+    .plan-card:hover::before { background: var(--gold); }
+    .plan-card:hover {
+      box-shadow: 0 8px 32px rgba(30,19,64,0.12);
+      transform: translateY(-3px);
+    }
+
+    .plan-card.featured {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, #fffbf0 0%, #ffffff 100%);
+    }
+    .plan-card.featured::before { background: var(--gold); }
+
+    .plan-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--purple);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 3px;
+      margin-bottom: 1.2rem;
+    }
+
+    .plan-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: 1px;
+      color: var(--purple);
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    .plan-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 2rem;
+    }
+    .plan-price .currency { font-size: 1rem; color: var(--muted); }
+    .plan-price .amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .plan-price .period { font-size: 0.8rem; color: var(--muted); }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .plan-features li {
+      font-size: 0.87rem;
+      color: var(--muted);
+      padding-left: 1.3rem;
+      position: relative;
+    }
+    .plan-features li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    .btn-plan-outline {
+      display: block;
+      text-align: center;
+      background: transparent;
+      color: var(--purple);
+      border: 1.5px solid var(--border);
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-plan-outline:hover {
+      border-color: var(--purple);
+      background: var(--purple);
+      color: white;
+    }
+    .btn-plan-primary {
+      display: block;
+      text-align: center;
+      background: var(--purple);
+      color: white;
+      border: 1.5px solid var(--purple);
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-plan-primary:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--purple);
+    }
+
+    /* ── CONTACTO ── */
+    #contacto {
+      background: white;
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .contact-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(245,168,0,0.12);
+      border: 1.5px solid var(--gold);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+    .contact-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .contact-value {
+      font-size: 0.95rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text);
+    }
+    .form-group input,
+    .form-group textarea {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.78rem 1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(30,19,64,0.08);
+    }
+
+    .btn-send {
+      align-self: flex-start;
+      background: var(--purple);
+      color: white;
+      border: none;
+      padding: 0.85rem 2.2rem;
+      border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-send:hover {
+      background: var(--gold);
+      color: var(--purple);
+      transform: translateY(-2px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--purple);
+      border-top: 3px solid var(--gold);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-logo {
+      height: 30px;
+      width: auto;
+    }
+
+    /* ── ANIMACIONES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-content > * { animation: fadeUp 0.7s ease both; }
+    .hero-tag   { animation-delay: 0.05s; }
+    h1          { animation-delay: 0.15s; }
+    .hero-desc  { animation-delay: 0.25s; }
+    .hero-btns  { animation-delay: 0.35s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { padding: 0 1.2rem; }
+      nav { gap: 1rem; }
+      nav a:not(.nav-login) { display: none; }
+      #inicio { padding: 3rem 1.2rem; min-height: auto; padding-top: 5rem; }
+      .hero-stats { display: none; }
+      section { padding: 3.5rem 1.2rem; }
+      .planes-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="#inicio">
+      <img src="Logo Sportclub.png" alt="SportClub" class="logo-img" />
+    </a>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#planes">Planes</a>
+      <a href="#contacto">Contacto</a>
+      <a href="login.html" class="nav-login">Iniciar Sesión</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section id="inicio">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+
+      <div class="hero-content">
+        <span class="hero-tag">Bienvenido a SportClub</span>
+        <h1>Entrena con <em>Nosotros</em></h1>
+        <p class="hero-desc">
+          Un espacio pensado para mejorar tu salud, entrenar con
+          profesionales y participar en diferentes clases deportivas.
+        </p>
+        <div class="hero-btns">
+          <a href="#planes" class="btn btn-primary">Conocer planes</a>
+          <a href="#contacto" class="btn btn-outline">Contacto</a>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Miembros activos</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Clases semanales</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">8</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANES -->
+    <section id="planes">
+      <div class="section-label">Membresías</div>
+      <div class="section-title">Planes disponibles</div>
+
+      <div class="planes-grid">
+
+        <!-- Plan Básico -->
+        <div class="plan-card">
+          <div class="plan-name">Plan Básico</div>
+          <p class="plan-desc">Acceso a clases grupales 2 veces por semana.</p>
+          <div class="plan-price">
+            <span class="currency">$</span>
+            <span class="amount">15.000</span>
+            <span class="period">/mes</span>
+          </div>
+          <ul class="plan-features">
+            <li>2 clases grupales por semana</li>
+            <li>Acceso a vestidores</li>
+            <li>App de seguimiento</li>
+          </ul>
+          <a href="login.html" class="btn-plan-outline">Elegir plan</a>
+        </div>
+
+        <!-- Plan Premium (destacado) -->
+        <div class="plan-card featured">
+          <span class="plan-badge">Popular</span>
+          <div class="plan-name">Plan Premium</div>
+          <p class="plan-desc">Acceso ilimitado a clases y uso de instalaciones.</p>
+          <div class="plan-price">
+            <span class="currency">$</span>
+            <span class="amount">30.000</span>
+            <span class="period">/mes</span>
+          </div>
+          <ul class="plan-features">
+            <li>Clases ilimitadas</li>
+            <li>Uso libre de instalaciones</li>
+            <li>Entrenador personal (1/mes)</li>
+            <li>Nutricionista incluido</li>
+          </ul>
+          <a href="login.html" class="btn-plan-primary">Elegir plan</a>
+        </div>
+
+        <!-- Plan Familiar -->
+        <div class="plan-card">
+          <div class="plan-name">Plan Familiar</div>
+          <p class="plan-desc">Plan para grupos familiares con beneficios especiales.</p>
+          <div class="plan-price">
+            <span class="currency">$</span>
+            <span class="amount">50.000</span>
+            <span class="period">/mes</span>
+          </div>
+          <ul class="plan-features">
+            <li>Hasta 4 integrantes</li>
+            <li>Clases ilimitadas</li>
+            <li>Descuentos en eventos</li>
+            <li>Prioridad en inscripciones</li>
+          </ul>
+          <a href="login.html" class="btn-plan-outline">Elegir plan</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="section-label">Escríbenos</div>
+    <div class="section-title">Contacto</div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">✉</div>
+          <div>
+            <div class="contact-label">Correo</div>
+            <div class="contact-value">contacto@sportclub.cl</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">☏</div>
+          <div>
+            <div class="contact-label">Teléfono</div>
+            <div class="contact-value">+56 9 1234 5678</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">⌖</div>
+          <div>
+            <div class="contact-label">Dirección</div>
+            <div class="contact-value">Av. Principal 123, Santiago</div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" onsubmit="return false">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre completo" />
+        </div>
+        <div class="form-group">
+          <label>Correo</label>
+          <input type="email" placeholder="tu@email.cl" />
+        </div>
+        <div class="form-group">
+          <label>Mensaje</label>
+          <textarea rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
+        </div>
+        <button class="btn-send">Enviar mensaje</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#inicio">
+      <img src="Logo Sportclub.png" alt="SportClub" class="footer-logo" />
+    </a>
+    <p>© 2025 SportClub. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>
