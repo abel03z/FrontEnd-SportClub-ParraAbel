@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SportClub – Login</title>
+  <title>SportClub - Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
@@ -165,7 +165,7 @@
 
   <main class="card">
     <img src="Logo Sportclub.png" alt="SportClub Logo" class="login-logo">
-    <form onsubmit="window.location.href='dashboard-usuario.html'; return false;">
+    <form id="formulariologin">
       <div class="form-group">
         <label for="email">Correo Electrónico</label>
         <input type="email" id="email" placeholder="ejemplo@sportclub.cl" required>
@@ -175,6 +175,18 @@
         <input type="password" id="password" placeholder="••••••••" required>
       </div>
       <button type="submit" class="btn-submit">INGRESAR</button>
+      <p id="error-msg" style="
+          display: none;
+          color: #d32f2f;
+          font-size: 0.88rem;
+          font-weight: 600;
+          text-align: center;
+          margin-top: 0.4rem;
+          padding: 0.5rem 0.8rem;
+          background: #fff0f0;
+          border: 1px solid #f5c2c2;
+          border-radius: 6px;
+      "></p>
     </form>
     
     <hr class="divider" />
@@ -193,6 +205,6 @@
       <a href="dashboard-admin.html">→ Vista Admin</a>
     </div>
   </footer>
-
+<script src="./login.js"></script>
 </body>
 </html>
