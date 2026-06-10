@@ -158,6 +158,18 @@
     height: auto;
     margin: 0 auto 2rem; /* Lo centra automáticamente y le da espacio con el formulario */
     }
+    .btn-volver {
+    display: block;
+    text-align: center;
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    }
+  .btn-volver:hover {
+  color: var(--purple);
+  }
     .reviewer-links a:hover { color: var(--gold); }
   </style>
 </head>
@@ -195,6 +207,8 @@
       <a href="registro.html">Registrarse</a>
       <span style="color: var(--border);">|</span>
       <a href="recuperar.html">¿Olvidaste tu contraseña?</a>
+      <span style="color: var(--border);">|</span>
+      <a href="index.html" class="btn-volver">←volver a la pagina principal</a>
     </div>
   </main>
 
