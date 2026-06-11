@@ -194,55 +194,317 @@
         </nav>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-        <header class="dashboard-header">
-            <h1>PANEL DE ADMINISTRACIÓN</h1>
-            <div class="perfil-tag">Admin: <span id="admin-name">Cargando...</span></div>
-        </header>
+<!-- MAIN CONTENT -->
+<main class="main-content">
+    <header class="dashboard-header">
+        <h1>PANEL DE ADMINISTRACIÓN</h1>
+        <div class="perfil-tag">Admin: <span id="admin-name">Cargando...</span></div>
+    </header>
 
-        <div class="content-stack">
-            
-            <!-- SECCIÓN CONTROL -->
-            <section id="section-control" class="card">
-                <h2 class="card-title">GESTIÓN Y ACCESOS DE USUARIOS</h2>
-                <div class="admin-row">
-                    <div><strong>Módulo de Clientes:</strong> Modificar, suspender o añadir nuevas membresías.</div>
-                    <span class="status-ok">Activo</span>
+    <div class="content-stack">
+        
+        <!-- SECCIÓN CONTROL (TABLA DE USUARIOS) -->
+        <section id="section-control" class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem;">
+                <div>
+                    <h2 class="card-title" style="margin-bottom: 0.2rem;">Gestión de Usuarios</h2>
+                    <p style="color: var(--gray-muted); font-size: 0.95rem;">Administra los usuarios del sistema</p>
                 </div>
-                <div class="admin-row">
-                    <div><strong>Módulo de Coaches:</strong> Asignación de horarios y bloques de clases semanales.</div>
-                    <span class="status-ok">Activo</span>
-                </div>
-            </section>
+                <!-- Botón para hacer scroll rápido al formulario -->
+                <a href="#form-container" class="btn-purple" style="text-decoration: none; display: inline-block; padding: 0.6rem 1.4rem; background-color: var(--purple); color: white; border-radius: 6px;">+ Nuevo Usuario</a>
+            </div>
 
-            <!-- SECCIÓN REPORTES -->
-            <section id="section-reportes" class="card">
-                <h2 class="card-title">ESTADO Y AUDITORÍA DEL SISTEMA</h2>
-                <div class="admin-row">
-                    <div>Base de datos SportClub (PostgreSQL/SQL)</div>
-                    <span class="status-ok" style="color: #1e7e34;">Conectada (100%)</span>
-                </div>
-                <div class="admin-row">
-                    <div>Logs de transacciones y pagos de pasarelas</div>
-                    <span class="status-ok" style="color: var(--gray-muted);">Sincronizado hoy</span>
-                </div>
-            </section>
+            <!-- Tabla Dinámica obligatoria por pauta -->
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color);">
+                            <th style="padding: 1rem; color: var(--gray-muted);">ID</th>
+                            <th style="padding: 1rem; color: var(--gray-muted);">Nombre Completo</th>
+                            <th style="padding: 1rem; color: var(--gray-muted);">Email</th>
+                            <th style="padding: 1rem; color: var(--gray-muted);">Rol</th>
+                            <th style="padding: 1rem; color: var(--gray-muted);">Fecha Registro</th>
+                            <th style="padding: 1rem; color: var(--gray-muted); text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Se renderiza dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-        </div>
-    </main>
+        <!-- FORMULARIO NUEVO / EDITAR USUARIO -->
+        <section id="form-container" class="card">
+            <h2 class="card-title" id="form-title">Nuevo Usuario</h2>
+            <form id="userForm" novalidate style="display: flex; flex-direction: column; gap: 1.2rem; max-width: 500px;">
+                <input type="hidden" id="userIdHidden">
+                
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-weight: 600; font-size: 0.9rem;">Nombre Completo</label>
+                    <input type="text" id="formFullName" placeholder="Ej. Juan Pérez" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 100%;">
+                    <span class="error-text" id="errFullName" style="color: #e63946; font-size: 0.8rem; display: none;">El nombre es obligatorio.</span>
+                </div>
+
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-weight: 600; font-size: 0.9rem;">Email</label>
+                    <input type="email" id="formEmail" placeholder="juan@demo.cl" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 100%;">
+                    <span class="error-text" id="errEmail" style="color: #e63946; font-size: 0.8rem; display: none;">Ingresa un correo electrónico válido.</span>
+                </div>
+
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-weight: 600; font-size: 0.9rem;">Rol</label>
+                    <select id="formRole" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 100%; background: white;">
+                        <option value="">Selecciona un rol</option>
+                        <option value="user">User</option>
+                        <option value="coach">Coach</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <span class="error-text" id="errRole" style="color: #e63946; font-size: 0.8rem; display: none;">Debes seleccionar un rol.</span>
+                </div>
+
+                <!-- Contenedor de contraseñas (se puede ignorar o dejar opcional al editar) -->
+                <div id="passwordFields" style="display: flex; flex-direction: column; gap: 1.2rem;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-weight: 600; font-size: 0.9rem;">Contraseña</label>
+                        <input type="password" id="formPassword" placeholder="Mínimo 8 caracteres" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 100%;">
+                        <span class="error-text" id="errPassword" style="color: #e63946; font-size: 0.8rem; display: none;">La contraseña debe tener mínimo 8 caracteres.</span>
+                    </div>
+
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-weight: 600; font-size: 0.9rem;">Confirmar Contraseña</label>
+                        <input type="password" id="formConfirmPassword" placeholder="Repite la contraseña" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 100%;">
+                        <span class="error-text" id="errConfirmPassword" style="color: #e63946; font-size: 0.8rem; display: none;">Las contraseñas no coinciden.</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                    <button type="button" id="btnCancel" class="btn-outline-dark" style="padding: 0.75rem 1.5rem; border: 1px solid var(--border-color); background: transparent; border-radius: 6px; cursor: pointer; display: none;">Cancelar</button>
+                    <button type="submit" class="btn-purple" style="padding: 0.75rem 2rem; background-color: var(--purple); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Guardar</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
 
 <script>
-  const user = JSON.parse(localStorage.getItem("user"));
+  // 1. Proteger la ruta y recuperar datos de autenticación
+  const userSession = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token")?.replace(/"/g, ""); // Limpia comillas extras del token
 
-  if (!user) {
+  if (!userSession || userSession.rol !== "admin") {
+    // Si no está logueado o no es admin, fuera
+    localStorage.clear();
     window.location.href = "login.html";
   } else {
-    document.getElementById("admin-name").textContent = user.fullname;
+    document.getElementById("admin-name").textContent = userSession.fullname || userSession.full_name;
   }
 
+  const API_URL = "http://localhost:3000/api/users";
+  let isEditMode = false;
+
+  // 2. Cargar y listar usuarios desde la API (GET)
+  async function loadUsers() {
+    try {
+      const response = await fetch(API_URL, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) throw new Error("Error al obtener los usuarios.");
+      const users = await response.json();
+      renderUsersTable(users);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // 3. Renderizar filas en el DOM con formato solicitado por la rúbrica
+  function renderUsersTable(users) {
+    const tbody = document.getElementById("usersTableBody");
+    tbody.innerHTML = "";
+
+    users.forEach(u => {
+      // Formatear Fecha a dd/mm/yyyy
+      const rawDate = u.createdAt || u.created_at || "2026-05-12";
+      const dateObj = new Date(rawDate);
+      const formattedDate = !isNaN(dateObj) 
+        ? `${String(dateObj.getDate()).padStart(2, '0')}/${String(dateObj.getMonth() + 1).padStart(2, '0')}/${dateObj.getFullYear()}`
+        : "12/05/2024";
+
+      // Determinar color de badge de rol
+      let badgeStyle = "background-color: #d4f4e2; color: #1e7e34;"; // user (verde)
+      if (u.role === "admin" || u.rol === "admin") badgeStyle = "background-color: #f8d7da; color: #721c24;"; // admin (rojo/rosado)
+      if (u.role === "coach" || u.rol === "coach") badgeStyle = "background-color: #cce5ff; color: #004085;"; // coach (azul)
+
+      const currentRole = u.role || u.rol || "user";
+
+      tbody.innerHTML += `
+        <tr style="border-bottom: 1px solid var(--border-color);">
+          <td style="padding: 1rem;">${u.id}</td>
+          <td style="padding: 1rem; font-weight: 500;">${u.full_name || u.fullname}</td>
+          <td style="padding: 1rem;">${u.email}</td>
+          <td style="padding: 1rem;"><span style="padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; ${badgeStyle}">${currentRole}</span></td>
+          <td style="padding: 1rem;">${formattedDate}</td>
+          <td style="padding: 1rem; text-align: center;">
+            <button onclick="editUserFields(${u.id}, '${u.full_name || u.fullname}', '${u.email}', '${currentRole}')" style="background: #f5a800; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-right: 0.5rem; font-weight:500;">✏ Editar</button>
+            <button onclick="deleteUserApi(${u.id})" style="background: #e63946; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight:500;">🗑 Eliminar</button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  // 4. Configurar el Formulario para modo Edición (GET individual simulado o directo)
+  function editUserFields(id, name, email, role) {
+    isEditMode = true;
+    document.getElementById("form-title").textContent = "Editar Usuario";
+    document.getElementById("userIdHidden").value = id;
+    document.getElementById("formFullName").value = name;
+    document.getElementById("formEmail").value = email;
+    document.getElementById("formRole").value = role;
+    
+    // Al editar según requerimientos, las contraseñas pueden omitirse o quedar ocultas
+    document.getElementById("passwordFields").style.display = "none";
+    document.getElementById("btnCancel").style.display = "inline-block";
+    
+    // Auto-scroll al formulario
+    document.getElementById("form-container").scrollIntoView({ behavior: "smooth" });
+  }
+
+  // Cancelar edición
+  document.getElementById("btnCancel").addEventListener("click", () => {
+    resetForm();
+  });
+
+  function resetForm() {
+    isEditMode = false;
+    document.getElementById("userForm").reset();
+    document.getElementById("form-title").textContent = "Nuevo Usuario";
+    document.getElementById("passwordFields").style.display = "flex";
+    document.getElementById("btnCancel").style.display = "none";
+    clearVisualErrors();
+  }
+
+  // 5. Validaciones visuales integradas (Sin alerts)
+  function clearVisualErrors() {
+    document.querySelectorAll(".error-text").forEach(el => el.style.display = "none");
+    document.querySelectorAll("#userForm input, #userForm select").forEach(el => el.style.style.borderColor = "var(--border-color)");
+  }
+
+  // 6. Enviar Formulario (POST para crear / PUT para actualizar)
+  document.getElementById("userForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    clearVisualErrors();
+
+    const id = document.getElementById("userIdHidden").value;
+    const fullName = document.getElementById("formFullName").value.trim();
+    const email = document.getElementById("formEmail").value.trim();
+    const role = document.getElementById("formRole").value;
+    const password = document.getElementById("formPassword").value;
+    const confirmPassword = document.getElementById("formConfirmPassword").value;
+
+    let hasErrors = false;
+
+    // Validación Nombre
+    if (!fullName) {
+      document.getElementById("errFullName").style.display = "block";
+      document.getElementById("formFullName").style.borderColor = "#e63946";
+      hasErrors = true;
+    }
+
+    // Validación Email básico
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      document.getElementById("errEmail").style.display = "block";
+      document.getElementById("formEmail").style.borderColor = "#e63946";
+      hasErrors = true;
+    }
+
+    // Validación Rol
+    if (!role) {
+      document.getElementById("errRole").style.display = "block";
+      document.getElementById("formRole").style.borderColor = "#e63946";
+      hasErrors = true;
+    }
+
+    // Validaciones de contraseña sólo si es modo creación
+    if (!isEditMode) {
+      if (password.length < 8) {
+        document.getElementById("errPassword").style.display = "block";
+        document.getElementById("formPassword").style.borderColor = "#e63946";
+        hasErrors = true;
+      }
+      if (password !== confirmPassword) {
+        document.getElementById("errConfirmPassword").style.display = "block";
+        document.getElementById("formConfirmPassword").style.borderColor = "#e63946";
+        hasErrors = true;
+      }
+    }
+
+    if (hasErrors) return;
+
+    // Construcción del Payload
+    const payload = {
+      full_name: fullName,
+      email: email,
+      role: role
+    };
+    if (!isEditMode) {
+      payload.password = password;
+    }
+
+    try {
+      const url = isEditMode ? `${API_URL}/${id}` : API_URL;
+      const method = isEditMode ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) throw new Error("Error en la operación del servidor.");
+      
+      resetForm();
+      loadUsers(); // Recarga la tabla de inmediato
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  // 7. Eliminar Usuario (DELETE)
+  async function deleteUserApi(id) {
+    if (!confirm("¿Estás seguro de que deseas eliminar este usuario?")) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) throw new Error("No se pudo eliminar al usuario.");
+      loadUsers(); // Recarga la tabla
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // Inicializar cargando la lista de la API al entrar
+  loadUsers();
+
+  // Control de logout
   document.querySelector(".logout-link").addEventListener("click", function () {
-    localStorage.removeItem("user");
+    localStorage.clear();
   });
 </script>
 </body>

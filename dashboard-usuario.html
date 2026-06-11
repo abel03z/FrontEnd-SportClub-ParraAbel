@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SportClub - Dashboard Usuario</title>
-    <!-- Google Fonts Oficiales de la Pauta -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
@@ -12,6 +11,7 @@
     <style>
         :root {
             --purple: #1e1340;
+            --purple-light: #2d1f5e;
             --gold: #f5a800;
             --bg-light: #f4f5f7;
             --text-dark: #2d2d2d;
@@ -19,6 +19,7 @@
             --green-badge: #d4f4e2;
             --green-text: #1e7e34;
             --border-color: #e9ecef;
+            --error-color: #e63946;
         }
 
         /* Hace que el movimiento por las anclas sea fluido */
@@ -80,7 +81,6 @@
             transition: all 0.2s ease;
         }
 
-        /* Simulación de la opción seleccionada en tu imagen */
         .sidebar-menu a.active, .sidebar-menu a:hover {
             background-color: rgba(255, 255, 255, 0.08);
             color: white;
@@ -129,7 +129,7 @@
         /* Distribución en Columnas */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 2.1fr 0.9fr;
+            grid-template-columns: 2fr 1fr;
             gap: 2rem;
             align-items: start;
         }
@@ -140,7 +140,7 @@
             gap: 2.5rem;
         }
 
-        /* Tarjetas (Contenedores Blancos) */
+        /* Tarjetas */
         .card {
             background: white;
             border-radius: 16px;
@@ -197,7 +197,6 @@
             border-bottom: none;
         }
 
-        /* Etiqueta Verde "Confirmada" */
         .badge-success {
             background-color: var(--green-badge);
             color: var(--green-text);
@@ -207,7 +206,7 @@
             font-weight: bold;
         }
 
-        /* Listado de Clases Disponibles */
+        /* Listado de Clases */
         .clase-item {
             display: flex;
             justify-content: space-between;
@@ -232,7 +231,6 @@
             font-size: 0.95rem;
         }
 
-        /* Botones del Dashboard */
         .btn-purple {
             background-color: var(--purple);
             color: white;
@@ -249,7 +247,7 @@
             opacity: 0.9;
         }
 
-        /* Columna Derecha: Mi Perfil Rápido */
+        /* Formulario e inputs dentro del Perfil */
         .profile-card {
             text-align: center;
             display: flex;
@@ -292,17 +290,88 @@
             margin-bottom: 1.5rem;
         }
 
-        .profile-details {
+        /* Estilos del Formulario de Actualización */
+        .profile-form {
             width: 100%;
             text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            font-size: 0.95rem;
-            line-height: 1.4;
+            gap: 1rem;
         }
 
-        /* Vista de adaptabilidad para pantallas medianas/pequeñas */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--purple);
+        }
+
+        .form-group input {
+            padding: 0.65rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--purple);
+        }
+
+        .error-span {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .btn-update {
+            background-color: var(--gold);
+            color: var(--purple);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-update:hover {
+            background-color: var(--purple);
+            color: white;
+        }
+
+        /* Mensajes de feedback sin alert() */
+        .feedback-msg {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
+        }
+        .feedback-success {
+            background-color: var(--green-badge);
+            color: var(--green-text);
+            border: 1px solid #c3e6cb;
+        }
+        .feedback-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Adaptabilidad */
         @media (max-width: 950px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -341,7 +410,6 @@
 </head>
 <body>
 
-    <!-- BARRA LATERAL (Navegación con Anclas listas) -->
     <aside class="sidebar">
         <div class="logo">SPORTCLUB</div>
         <nav class="sidebar-menu">
@@ -349,23 +417,20 @@
             <a href="#section-reservas">Mis Reservas</a>
             <a href="#section-clases">Clases Disponibles</a>
             <a href="#section-perfil">Mi Perfil</a>
-            <a href="login.html" class="logout-link">Cerrar Sesión</a>
+            <a href="index.html" class="logout-link">Cerrar Sesión</a>
         </nav>
     </aside>
 
-    <!-- ÁREA DE CONTENIDO -->
     <main class="main-content">
         <header class="dashboard-header">
             <h1 id="welcome-title">¡BIENVENIDO DE VUELTA!</h1>
-            <div class="perfil-tag">Perfil: <span id="perfil-tag-text">Alumno Regular</span></div>
+            <div class="perfil-tag">Perfil: <span id="perfil-tag-text">Socio Activo</span></div>
         </header>
 
         <div class="dashboard-grid">
             
-            <!-- COLUMNA IZQUIERDA -->
             <div class="left-column">
                 
-                <!-- SECCIÓN: MIS RESERVAS -->
                 <section id="section-reservas" class="card">
                     <h2 class="card-title">MIS PRÓXIMAS RESERVAS (5)</h2>
                     <table>
@@ -412,7 +477,6 @@
                     </table>
                 </section>
 
-                <!-- SECCIÓN: CLASES DISPONIBLES -->
                 <section id="section-clases" class="card">
                     <h2 class="card-title">CLASES DISPONIBLES PARA INSCRIPCIÓN (3)</h2>
                     
@@ -443,9 +507,8 @@
 
             </div>
 
-            <!-- COLUMNA DERECHA: MI PERFIL -->
             <aside id="section-perfil" class="card profile-card">
-                <h2 class="card-title">MI PERFIL RÁPIDO</h2>
+                <h2 class="card-title">MI PERFIL</h2>
                 
                 <div class="avatar-circle" id="avatar-initials">??</div>
                 
@@ -453,43 +516,155 @@
                 <div class="socio-number">Socio N° 45821</div>
                 
                 <div class="divider"></div>
+
+                <div id="profileFeedback" class="feedback-msg"></div>
                 
-                <div class="profile-details">
-                    <p><strong>Plan:</strong> Anual VIP Black</p>
-                    <p><strong>Evaluación:</strong> Al día (Mayo 2026)</p>
-                </div>
+                <form id="updateProfileForm" class="profile-form" novalidate>
+                    <div class="form-group">
+                        <label for="inputName">Nombre Completo</label>
+                        <input type="text" id="inputName" placeholder="Tu nombre" />
+                        <span class="error-span" id="errProfileName">El nombre no puede estar vacío.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail">Correo Electrónico</label>
+                        <input type="email" id="inputEmail" placeholder="tu@correo.com" readonly style="background-color: #f0f0f0; color: #888; cursor: not-allowed;" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputPassword">Nueva Contraseña (Opcional)</label>
+                        <input type="password" id="inputPassword" placeholder="Dejar en blanco para no cambiar" />
+                        <span class="error-span" id="errProfilePass">La contraseña debe tener mínimo 8 caracteres.</span>
+                    </div>
+
+                    <button type="submit" class="btn-update">GUARDAR CAMBIOS</button>
+                </form>
             </aside>
 
         </div>
     </main>
 
 <script>
-  // Leer usuario desde localStorage
+  // 1. Validar sesión al cargar la página
   const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token"); // Rescatamos el token jwt guardado en el login
 
-  // Si no hay sesión activa, redirigir al login
   if (!user) {
     window.location.href = "login.html";
   } else {
-    // Mostrar nombre en el header
+    // Renderizado dinámico del DOM inicial con datos del Storage
     document.getElementById("welcome-title").textContent =
       "¡BIENVENIDO DE VUELTA, " + user.fullname.toUpperCase() + "!";
 
-    // Iniciales para el avatar (primeras 2 letras de las primeras 2 palabras)
-    const initials = user.fullname
-      .split(" ")
-      .slice(0, 2)
-      .map(n => n[0].toUpperCase())
-      .join("");
-    document.getElementById("avatar-initials").textContent = initials;
+    // Sincronizar inputs del formulario de perfil
+    document.getElementById("inputName").value = user.fullname;
+    document.getElementById("inputEmail").value = user.email || "";
 
-    // Nombre completo en tarjeta de perfil
-    document.getElementById("profile-name").textContent = user.fullname;
+    actualizarAvatarYNombre(user.fullname);
   }
 
-  // Cerrar sesión: limpiar localStorage al hacer clic
+  // Función modular para repintar la interfaz cuando el usuario cambie su nombre
+  function actualizarAvatarYNombre(name) {
+    document.getElementById("profile-name").textContent = name;
+    const initials = name
+      .split(" ")
+      .slice(0, 2)
+      .map(n => n ? n[0].toUpperCase() : "")
+      .join("");
+    document.getElementById("avatar-initials").textContent = initials || "??";
+  }
+
+  // 2. Procesar el formulario de actualización hacia el Backend de forma asíncrona
+  document.getElementById("updateProfileForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    // Resetear estados visuales anteriores
+    const errorSpans = document.querySelectorAll(".error-span");
+    errorSpans.forEach(span => span.style.display = "none");
+    
+    const inputs = document.querySelectorAll(".form-group input");
+    inputs.forEach(input => input.style.borderColor = "var(--border-color)");
+
+    const feedback = document.getElementById("profileFeedback");
+    feedback.style.display = "none";
+    feedback.className = "feedback-msg";
+
+    // Capturar valores actuales
+    const newName = document.getElementById("inputName").value.trim();
+    const newPassword = document.getElementById("inputPassword").value;
+
+    let hasErrors = false;
+
+    // Validaciones de negocio del lado del cliente
+    if (!newName) {
+        document.getElementById("errProfileName").style.display = "block";
+        document.getElementById("inputName").style.borderColor = "var(--error-color)";
+        hasErrors = true;
+    }
+
+    if (newPassword && newPassword.length < 8) {
+        document.getElementById("errProfilePass").style.display = "block";
+        document.getElementById("inputPassword").style.borderColor = "var(--error-color)";
+        hasErrors = true;
+    }
+
+    if (hasErrors) return; // Frena si hay fallas visuales
+
+    // Estructurar el cuerpo para enviar a la API
+    const updateData = {
+        full_name: newName
+    };
+    // Solo añadimos la contraseña a la petición si el usuario escribió algo
+    if (newPassword) {
+        updateData.password = newPassword;
+    }
+
+    try {
+        // Petición PUT dinámica apuntando al ID del usuario en sesión
+        const response = await fetch(`http://localhost:3000/api/users/${user.id || 'profile'}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token ? `Bearer ${JSON.parse(token)}` : "" // Enviamos cabecera Bearer Token si la API la pide
+            },
+            body: JSON.stringify(updateData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok || result.ok) {
+            // Actualizar la persistencia local en el Storage
+            user.fullname = newName;
+            localStorage.setItem("user", JSON.stringify(user));
+
+            // Refrescar el DOM en vivo sin recargar la página entera
+            actualizarAvatarYNombre(newName);
+            document.getElementById("welcome-title").textContent = "¡BIENVENIDO DE VUELTA, " + newName.toUpperCase() + "!";
+            document.getElementById("inputPassword").value = ""; // Limpiar campo clave
+
+            // Feedback exitoso en pantalla
+            feedback.textContent = "✓ Perfil y credenciales actualizados correctamente.";
+            feedback.classList.add("feedback-success");
+            feedback.style.display = "block";
+        } else {
+            // Error controlado retornado por la base de datos
+            feedback.textContent = result.message || "No se pudieron guardar los cambios en el servidor.";
+            feedback.classList.add("feedback-error");
+            feedback.style.display = "block";
+        }
+
+    } catch (error) {
+        console.error("Falla de red:", error);
+        feedback.textContent = "Error: Sin comunicación con el servidor de la API.";
+        feedback.classList.add("feedback-error");
+        feedback.style.display = "block";
+    }
+  });
+
+  // 3. Destruir sesión segura al salir
   document.querySelector(".logout-link").addEventListener("click", function () {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   });
 </script>
 </body>

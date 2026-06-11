@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SportClub – Registro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght=300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -30,101 +30,207 @@
     }
     .card {
       background: var(--card-bg);
-      border: 1.5px solid var(--border);
       border-radius: var(--radius);
-      padding: 2.5rem 2.2rem;
+      padding: 2.5rem;
       width: 100%;
-      max-width: 450px;
-      box-shadow: 0 10px 40px rgba(30,19,64,0.15);
+      max-width: 420px;
+      box-shadow: 0 8px 24px rgba(30, 19, 64, 0.05);
     }
     .title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.3rem;
-      letter-spacing: 2px;
-      color: var(--text);
+      font-size: 2.5rem;
+      color: var(--purple);
       text-align: center;
       margin-bottom: 1.5rem;
+      letter-spacing: 1px;
     }
-    form { display: flex; flex-direction: column; gap: 1rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
-    .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--purple);
+      margin-bottom: 0.4rem;
+    }
     .form-group input, .form-group select {
       background: var(--input-bg);
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      font-size: 0.9rem;
-      width: 100%;
-    }
-    
-    .error-message {
-      color: var(--error-color);
-      font-size: 0.78rem;
-      margin-top: 0.2rem;
-      display: none; 
-    }
-    .btn-submit {
-      display: block;
-      text-align: center;
-      background: var(--purple);
-      color: white;
+      border: 1px solid var(--border);
       padding: 0.85rem;
       border-radius: 8px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      cursor: pointer;
-      text-decoration: none;
-      width: 100%;
-      border: none;
+      font-size: 0.95rem;
+      color: var(--text);
+      outline: none;
       transition: all 0.3s ease;
     }
-    .btn-submit:hover { 
-      background: var(--gold); 
-      color: var(--purple); 
-      transform: translateY(-2px);
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--purple);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(30, 19, 64, 0.05);
     }
-    .back-link a { color: var(--purple); text-decoration: none; font-weight: 500; }
-    .back-link a:hover { text-decoration: underline; }
+    .error-message {
+      color: var(--error-color);
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+      display: none;
+    }
+    .btn-submit {
+      background: var(--purple);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.9rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .btn-submit:hover {
+      background: var(--gold);
+      color: var(--purple);
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .back-link a {
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
   <main class="card">
     <h1 class="title">CREAR CUENTA</h1>
-    <form onsubmit="window.location.href='login.html'; return false;">
+    
+    <form id="registerForm" novalidate>
+      
       <div class="form-group">
         <label>Nombre Completo</label>
-        <input type="text" placeholder="Juan Pérez" required />
-        <span class="error-message">El nombre es obligatorio.</span>
+        <input type="text" id="regFullName" placeholder="Juan Pérez" />
+        <span class="error-message" id="errRegName">El nombre es obligatorio.</span>
       </div>
+
       <div class="form-group">
         <label>Correo Electrónico</label>
-        <input type="email" placeholder="juan@email.com" required />
-        <span class="error-message">Ingresa un correo electrónico válido.</span>
+        <input type="email" id="regEmail" placeholder="juan@email.com" />
+        <span class="error-message" id="errRegEmail">Ingresa un correo electrónico válido.</span>
       </div>
+
       <div class="form-group">
         <label>Contraseña</label>
-        <input type="password" placeholder="Mínimo 6 caracteres" required />
-        <span class="error-message">La contraseña debe tener al menos 6 caracteres.</span>
+        <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres" />
+        <span class="error-message" id="errRegPass">La contraseña debe tener al menos 8 caracteres.</span>
       </div>
+
       <div class="form-group">
         <label>Objetivo Deportivo</label>
-        <select required>
+        <select id="regObjective">
           <option value="">Selecciona una opción</option>
-          <option>Pérdida de Peso</option>
-          <option>Ganancia Muscular</option>
-          <option>Resistencia / Cardio</option>
-          <option>Salud General</option>
+          <option value="Pérdida de Peso">Pérdida de Peso</option>
+          <option value="Ganancia Muscular">Ganancia Muscular</option>
+          <option value="Resistencia / Cardio">Resistencia / Cardio</option>
+          <option value="Salud General">Salud General</option>
         </select>
+        <span class="error-message" id="errRegObjective">Debes seleccionar un objetivo.</span>
       </div>
+
+      <div id="serverErrorMsg" style="display: none; background-color: #f8d7da; color: #721c24; padding: 0.8rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem; text-align: center; border: 1px solid #f5c6cb;"></div>
+
       <button type="submit" class="btn-submit">REGISTRARME</button>
     </form>
     
     <div class="back-link">
-      <a href="login.html">¿Ya tienes cuenta? Inicia Sesión</a>
+      ¿Ya tienes cuenta? <a href="login.html">Inicia Sesión aquí</a>
     </div>
   </main>
 
+<script>
+document.getElementById("registerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    
+    // 1. Limpiar estados de error previos
+    const errorSpans = document.querySelectorAll(".error-message");
+    errorSpans.forEach(span => span.style.display = "none");
+    
+    const inputs = document.querySelectorAll(".form-group input, .form-group select");
+    inputs.forEach(input => input.style.borderColor = "var(--border)");
+    
+    const serverError = document.getElementById("serverErrorMsg");
+    serverError.style.display = "none";
+    serverError.textContent = "";
+
+    // 2. Captura de datos
+    const fullName = document.getElementById("regFullName").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const password = document.getElementById("regPassword").value;
+
+    let systemErrors = false;
+
+    // 3. Validaciones visuales (Pauta)
+    if (!fullName) {
+        document.getElementById("errRegName").style.display = "block";
+        document.getElementById("regFullName").style.borderColor = "var(--error-color)";
+        systemErrors = true;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        document.getElementById("errRegEmail").style.display = "block";
+        document.getElementById("regEmail").style.borderColor = "var(--error-color)";
+        systemErrors = true;
+    }
+
+    if (password.length < 8) {
+        document.getElementById("errRegPass").style.display = "block";
+        document.getElementById("regPassword").style.borderColor = "var(--error-color)";
+        systemErrors = true;
+    }
+
+    if (systemErrors) return;
+
+    // 4. Envío real a la API
+    try {
+        const response = await fetch("http://localhost:3000/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                full_name: fullName,
+                email: email,
+                password: password,
+                role: "user"
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+            serverError.textContent = result.message || "Error al registrar el usuario.";
+            serverError.style.display = "block";
+            return;
+        }
+
+        // Éxito: Nos vamos al login
+        window.location.href = "login.html?registered=true";
+
+    } catch (error) {
+        console.error("Error de red:", error);
+        serverError.textContent = "No hay conexión con el servidor de la API.";
+        serverError.style.display = "block";
+    }
+});
+</script>
 </body>
 </html>

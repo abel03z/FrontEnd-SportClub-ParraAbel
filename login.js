@@ -1,27 +1,11 @@
 // =============================================
 //  SportClub – Sistema de Login
-//  6 usuarios: 2 por cada rol
 // =============================================
 
-const users = [
-  // --- Usuarios regulares ---
-  { user: "user1@sportclub.cl",  fullname: "Carlos Pérez Muñoz",  password: "1234", role: "user"  },
-  { user: "user2@sportclub.cl",  fullname: "Ana Torres Soto",     password: "1234", role: "user"  },
-  // --- Coaches ---
-  { user: "coach1@sportclub.cl", fullname: "Felipe Mora Ríos",    password: "1234", role: "coach" },
-  { user: "coach2@sportclub.cl", fullname: "Elena Rojas Vega",    password: "1234", role: "coach" },
-  // --- Administradores ---
-  { user: "admin1@sportclub.cl", fullname: "Mario González López", password: "1234", role: "admin" },
-  { user: "admin2@sportclub.cl", fullname: "Laura Fuentes Araya",  password: "1234", role: "admin" }
-];
-
-// =============================================
-//  Listener del formulario de login
-// =============================================
-document.getElementById("formulariologin").addEventListener("submit", function (e) {
+document.getElementById("formulariologin").addEventListener("submit",  async function (e) {
   e.preventDefault();
 
-  const email    = document.getElementById("email").value.trim();
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
   const errorMsg = document.getElementById("error-msg");
 
@@ -36,24 +20,51 @@ document.getElementById("formulariologin").addEventListener("submit", function (
     return;
   }
 
-  // Buscar usuario en el arreglo
-  const found = users.find(u => u.user === email && u.password === password);
+  try {
+    // Petición de Login a la API
+    const response = await fetch("http://localhost:3000/api/auth/login", {
+      method: "post",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      })
+    });
 
-  if (!found) {
-    errorMsg.textContent = "Credenciales incorrectas";
+    const data = await response.json();
+
+    console.log("Respuesta de la API:", data);
+
+    if (!response.ok || !data.ok) {
+      errorMsg.textContent = data.message || "Credenciales incorrectas";
+      errorMsg.style.display = "block";
+      return;
+    }
+
+    // Guardar usuario y token de sesión en el almacenamiento del navegador
+    localStorage.setItem("user", JSON.stringify(data.data.user));
+    localStorage.setItem("token", JSON.stringify(data.data.token));
+
+    // Diccionario de rutas limpias
+    const rutas = {
+      user: "dashboard-usuario.html",
+      coach: "dashboard-coach.html",
+      admin: "dashboard-admin.html"
+    };
+
+    // CORRECCIÓN AQUÍ: Usamos .role (en inglés) que es lo que viene de la Base de Datos
+    const userRole = data.data.user.role || data.data.user.rol; 
+    
+    if (rutas[userRole]) {
+      window.location.href = rutas[userRole];
+    } else {
+      errorMsg.textContent = "Error: Rol de usuario no reconocido por el sistema.";
+      errorMsg.style.display = "block";
+    }
+
+  } catch (error) {
+    console.error("Error de conexión:", error);
+    errorMsg.textContent = "No se pudo conectar con el servidor.";
     errorMsg.style.display = "block";
-    return;
   }
-
-  // Guardar usuario en localStorage
-  localStorage.setItem("user", JSON.stringify(found));
-
-  // Redirigir según rol
-  const rutas = {
-    user:  "dashboard-usuario.html",
-    coach: "dashboard-coach.html",
-    admin: "dashboard-admin.html"
-  };
-
-  window.location.href = rutas[found.role];
 });
