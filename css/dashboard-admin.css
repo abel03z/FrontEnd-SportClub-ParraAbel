@@ -1,0 +1,169 @@
+        :root {
+            --purple: #1e1340;
+            --gold: #f5a800;
+            --bg-light: #f4f5f7;
+            --text-dark: #2d2d2d;
+            --gray-muted: #6c757d;
+            --border-color: #e9ecef;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside.sidebar {
+            width: 260px;
+            background-color: var(--purple);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            padding: 2.5rem 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            color: var(--gold);
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            width: 100%;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            padding: 1.1rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: white;
+            border-radius: 4px;
+            margin: 0 1rem;
+            padding: 1.1rem 1rem;
+        }
+
+        .logout-link {
+            margin-top: auto;
+            color: #ff6b6b !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem !important;
+        }
+
+        /* Main Content */
+        main.main-content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            padding: 2.5rem;
+        }
+
+        header.dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        header.dashboard-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.2rem;
+            color: var(--purple);
+            line-height: 1;
+        }
+
+        .perfil-tag {
+            color: var(--gray-muted);
+            font-size: 0.95rem;
+        }
+
+        .content-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.1rem;
+            color: var(--purple);
+            margin-bottom: 1.8rem;
+            position: relative;
+            padding-bottom: 0.4rem;
+            display: inline-block;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* Admin Panels */
+        .admin-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-row:last-child {
+            border-bottom: none;
+        }
+
+        .admin-row span.status-ok {
+            color: #1e7e34;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            aside.sidebar { position: relative; width: 100%; height: auto; padding: 1.5rem 0; }
+            .logo { margin-bottom: 1.5rem; text-align: center; }
+            .sidebar-menu { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            main.main-content { margin-left: 0; width: 100%; padding: 1.5rem; }
+        }

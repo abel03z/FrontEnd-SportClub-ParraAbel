@@ -178,21 +178,53 @@
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
-  if (!user) {
+if (!user) {
     window.location.href = "login.html";
   } else {
-    const nombreUsuario = user.full_name ?? user.fullname ?? "Usuario";
-    const userRole = user.rol ?? user.role ?? "user";
-    const birthValue = user.birth_date ?? user.fecha_nacimiento ?? user.birthdate ?? "";
+    // 1. Carga rápida inicial con lo que hay en LocalStorage (Buena UX)
+    mapearDatosFormulario(user);
+
+    // 2. Consumo obligatorio del GET según rúbrica para actualizar con la Base de Datos
+    obtenerPerfilServidor();
+  }
+
+  function mapearDatosFormulario(datosUsuario) {
+    const nombreUsuario = datosUsuario.full_name ?? datosUsuario.fullname ?? "Usuario";
+    const userRole = datosUsuario.rol ?? datosUsuario.role ?? "user";
+    const birthValue = datosUsuario.birth_date ?? datosUsuario.fecha_nacimiento ?? datosUsuario.birthdate ?? "";
 
     document.getElementById("welcome-title").textContent =
       "¡BIENVENIDO DE VUELTA, " + nombreUsuario.toUpperCase() + "!";
     document.getElementById("inputName").value = nombreUsuario;
-    document.getElementById("inputEmail").value = user.email || "";
+    document.getElementById("inputEmail").value = datosUsuario.email || "";
     document.getElementById("inputBirthDate").value = toDateInputValue(birthValue);
 
     actualizarAvatarYNombre(nombreUsuario);
     renderRoleBadge(userRole);
+  }
+
+  async function obtenerPerfilServidor() {
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/me", {
+        method: "GET",
+        headers: {
+          "Authorization": token ? `Bearer ${JSON.parse(token)}` : "",
+          "Content-Type": "application/json"
+        }
+      });
+      
+      if (response.ok) {
+        const respuesta = await response.json();
+        const usuarioFresco = respuesta.data?.user || respuesta.user || respuesta.data;
+        if (usuarioFresco) {
+          // Sincronizamos la memoria local con los datos reales del servidor
+          localStorage.setItem("user", JSON.stringify({ ...user, ...usuarioFresco }));
+          mapearDatosFormulario(usuarioFresco);
+        }
+      }
+    } catch (error) {
+      console.error("No se pudo sincronizar el perfil con el servidor:", error);
+    }
   }
 
   function toDateInputValue(value) {
@@ -374,6 +406,32 @@
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     window.location.href = "login.html";
+  });
+// =============================================
+  // LOGICA DE NAVEGACIÓN ACTIVA (Sidebar)
+  // =============================================
+  
+  // Seleccionamos todos los enlaces del menú, excepto el de Cerrar Sesión
+  const enlacesMenu = document.querySelectorAll(".sidebar-menu a:not(.logout-link)");
+
+  enlacesMenu.forEach(enlace => {
+    enlace.addEventListener("click", function(e) {
+      // 1. Remover la clase 'active' de todos los enlaces para limpiar el menú
+      enlacesMenu.forEach(item => item.classList.remove("active"));
+      
+      // 2. Agregar la clase 'active' al enlace que el usuario acaba de presionar
+      this.classList.add("active");
+      
+      // Opcional: Si quieres un desplazamiento suave hacia la sección en la misma página
+      const targetId = this.getAttribute("href");
+      if (targetId && targetId !== "#") {
+        e.preventDefault(); // Evitamos el salto brusco del '#'
+        const targetSection = document.querySelector(targetId);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    });
   });
 </script>
 

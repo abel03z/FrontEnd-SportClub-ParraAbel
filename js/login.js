@@ -43,7 +43,7 @@ document.getElementById("formulariologin").addEventListener("submit",  async fun
 
     // Guardar usuario y token de sesión en el almacenamiento del navegador
     localStorage.setItem("user", JSON.stringify(data.data.user));
-    localStorage.setItem("token", JSON.stringify(data.data.token));
+    localStorage.setItem("token", (data.data.token));
 
     // Diccionario de rutas limpias
     const rutas = {

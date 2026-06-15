@@ -121,8 +121,11 @@
   const userSession = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token")?.replace(/"/g, ""); // Limpia comillas extras del token
 
-  if (!userSession || userSession.rol !== "admin") {
-    // Si no está logueado o no es admin, fuera
+  // Creamos la misma validación doble (inglés/español) que en el login
+  const currentSessionRole = userSession?.role || userSession?.rol;
+
+  if (!userSession || currentSessionRole !== "admin") {
+    // Si no está logueado o su rol no es admin, fuera
     localStorage.clear();
     window.location.href = "login.html";
   } else {
