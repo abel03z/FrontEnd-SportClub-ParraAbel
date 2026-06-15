@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportClub - Dashboard Usuario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboard-usuario.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">SPORTCLUB</div>
+        <nav class="sidebar-menu">
+            <a href="#" class="active">Inicio</a>
+            <a href="#section-reservas">Mis Reservas</a>
+            <a href="#section-clases">Clases Disponibles</a>
+            <a href="#section-perfil">Mi Perfil</a>
+            <a href="login.html" class="logout-link">Cerrar Sesión</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1 id="welcome-title">¡BIENVENIDO DE VUELTA!</h1>
+            <div class="perfil-tag">Perfil: <span id="perfil-tag-text">Socio Activo</span></div>
+        </header>
+
+        <div class="dashboard-grid">
+            
+            <div class="left-column">
+                
+                <section id="section-reservas" class="card">
+                    <h2 class="card-title">MIS PRÓXIMAS RESERVAS (5)</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Clase</th>
+                                <th>Coach</th>
+                                <th>Fecha / Hora</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Crossfit Pro</strong></td>
+                                <td>Felipe M.</td>
+                                <td>Hoy, 19:00 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Spinning Avanzado</strong></td>
+                                <td>María J.</td>
+                                <td>Mañana, 08:30 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Entrenamiento Funcional</strong></td>
+                                <td>Carlos T.</td>
+                                <td>03 de Jun, 10:00 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Powerlifting Intro</strong></td>
+                                <td>Felipe M.</td>
+                                <td>05 de Jun, 18:00 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Yoga y Flexibilidad</strong></td>
+                                <td>Elena R.</td>
+                                <td>07 de Jun, 09:00 hrs</td>
+                                <td><span class="badge-success">Confirmada</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="section-clases" class="card">
+                    <h2 class="card-title">CLASES DISPONIBLES PARA INSCRIPCIÓN (3)</h2>
+                    
+                    <div class="clase-item">
+                        <div class="clase-info">
+                            <h4>Boxeo Formativo</h4>
+                            <p>Lunes y Miércoles 20:00 - Coach Arturo S. (12 cupos)</p>
+                        </div>
+                        <button class="btn-purple">Inscribir</button>
+                    </div>
+
+                    <div class="clase-item">
+                        <div class="clase-info">
+                            <h4>Pilates Reformer</h4>
+                            <p>Martes y Jueves 11:00 - Coach Elena R. (5 cupos)</p>
+                        </div>
+                        <button class="btn-purple">Inscribir</button>
+                    </div>
+
+                    <div class="clase-item">
+                        <div class="clase-info">
+                            <h4>Zumba Fitness</h4>
+                            <p>Viernes y Sábado 18:30 - Coach María J. (15 cupos)</p>
+                        </div>
+                        <button class="btn-purple">Inscribir</button>
+                    </div>
+                </section>
+
+            </div>
+
+
+            <aside id="section-perfil" class="card profile-card">
+                <h2 class="card-title">MI PERFIL</h2>
+                
+                <div class="avatar-circle" id="avatar-initials">??</div>
+                
+                <h3 id="profile-name">Cargando...</h3>
+                <div id="profile-role-badge" style="display:inline-block; margin-top:0.35rem; padding:0.35rem 0.7rem; border-radius:999px; font-size:0.85rem; font-weight:700; text-transform:capitalize;"></div>
+                <div class="socio-number">Socio N° 45821</div>
+                
+                <div class="divider"></div>
+
+                <div id="profileFeedback" class="feedback-msg"></div>
+                
+                <form id="updateProfileForm" class="profile-form" novalidate>
+                    <section style="display:flex; flex-direction:column; gap:0.9rem; margin-bottom:1rem;">
+                        <h4 style="margin:0; font-size:1rem;">Datos personales</h4>
+
+                        <div class="form-group">
+                            <label for="inputName">Nombre Completo</label>
+                            <input type="text" id="inputName" placeholder="Tu nombre" />
+                            <span class="error-span" id="errProfileName">El nombre no puede estar vacío.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail">Correo Electrónico</label>
+                            <input type="email" id="inputEmail" placeholder="tu@correo.com" readonly style="background-color: #f0f0f0; color: #888; cursor: not-allowed;" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputBirthDate">Fecha de nacimiento</label>
+                            <input type="date" id="inputBirthDate" />
+                            <span class="error-span" id="errBirthDate">La fecha de nacimiento no es válida.</span>
+                        </div>
+                    </section>
+
+                    <section style="display:flex; flex-direction:column; gap:0.9rem; margin-bottom:1rem;">
+                        <h4 style="margin:0; font-size:1rem;">Seguridad</h4>
+
+                        <div class="form-group">
+                            <label for="inputCurrentPassword">Contraseña actual</label>
+                            <input type="password" id="inputCurrentPassword" placeholder="Ingresa tu contraseña actual" />
+                            <span class="error-span" id="errCurrentPass">Debes ingresar tu contraseña actual.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword">Nueva Contraseña</label>
+                            <input type="password" id="inputPassword" placeholder="Mínimo 8 caracteres" />
+                            <span class="error-span" id="errProfilePass">La contraseña debe tener mínimo 8 caracteres.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputConfirmPassword">Confirmar contraseña</label>
+                            <input type="password" id="inputConfirmPassword" placeholder="Repite la contraseña" />
+                            <span class="error-span" id="errConfirmPass">Las contraseñas no coinciden.</span>
+                        </div>
+                    </section>
+
+                    <button type="submit" class="btn-update">GUARDAR CAMBIOS</button>
+                </form>
+            </aside>
+
+        </div>
+    </main>
+
+
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    const nombreUsuario = user.full_name ?? user.fullname ?? "Usuario";
+    const userRole = user.rol ?? user.role ?? "user";
+    const birthValue = user.birth_date ?? user.fecha_nacimiento ?? user.birthdate ?? "";
+
+    document.getElementById("welcome-title").textContent =
+      "¡BIENVENIDO DE VUELTA, " + nombreUsuario.toUpperCase() + "!";
+    document.getElementById("inputName").value = nombreUsuario;
+    document.getElementById("inputEmail").value = user.email || "";
+    document.getElementById("inputBirthDate").value = toDateInputValue(birthValue);
+
+    actualizarAvatarYNombre(nombreUsuario);
+    renderRoleBadge(userRole);
+  }
+
+  function toDateInputValue(value) {
+    if (!value) return "";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return "";
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  function renderRoleBadge(role) {
+    const badge = document.getElementById("profile-role-badge");
+    const normalized = (role || "user").toLowerCase();
+    const colors = {
+      user: "background:#d4f4e2; color:#1e7e34;",
+      coach: "background:#cce5ff; color:#004085;",
+      admin: "background:#f8d7da; color:#721c24;"
+    };
+    badge.style.cssText = `display:inline-block; margin-top:0.35rem; padding:0.35rem 0.7rem; border-radius:999px; font-size:0.85rem; font-weight:700; text-transform:capitalize; ${colors[normalized] || colors.user}`;
+    badge.textContent = normalized;
+  }
+
+  function actualizarAvatarYNombre(name) {
+    document.getElementById("profile-name").textContent = name;
+    const initials = name
+      .split(" ")
+      .slice(0, 2)
+      .map(n => n ? n[0].toUpperCase() : "")
+      .join("");
+    document.getElementById("avatar-initials").textContent = initials || "??";
+  }
+
+  function resetErrors() {
+    document.querySelectorAll(".error-span").forEach(span => span.style.display = "none");
+    document.querySelectorAll(".form-group input").forEach(input => input.style.borderColor = "var(--border-color)");
+    const feedback = document.getElementById("profileFeedback");
+    feedback.style.display = "none";
+    feedback.className = "feedback-msg";
+    feedback.textContent = "";
+  }
+
+  function showError(id, inputId) {
+    document.getElementById(id).style.display = "block";
+    document.getElementById(inputId).style.borderColor = "var(--error-color)";
+  }
+
+  document.getElementById("updateProfileForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    resetErrors();
+
+    const newName = document.getElementById("inputName").value.trim();
+    const newBirthDate = document.getElementById("inputBirthDate").value;
+    const currentPassword = document.getElementById("inputCurrentPassword").value;
+    const newPassword = document.getElementById("inputPassword").value;
+    const confirmPassword = document.getElementById("inputConfirmPassword").value;
+
+    let hasErrors = false;
+
+    if (!newName) {
+      showError("errProfileName", "inputName");
+      hasErrors = true;
+    }
+
+    if (newBirthDate) {
+      const d = new Date(newBirthDate);
+      if (Number.isNaN(d.getTime())) {
+        showError("errBirthDate", "inputBirthDate");
+        hasErrors = true;
+      }
+    }
+
+    const passwordFilled = currentPassword || newPassword || confirmPassword;
+    if (passwordFilled) {
+      if (!currentPassword) {
+        showError("errCurrentPass", "inputCurrentPassword");
+        hasErrors = true;
+      }
+      if (!newPassword || newPassword.length < 8) {
+        showError("errProfilePass", "inputPassword");
+        hasErrors = true;
+      }
+      if (!confirmPassword || newPassword !== confirmPassword) {
+        showError("errConfirmPass", "inputConfirmPassword");
+        hasErrors = true;
+      }
+    }
+
+    if (hasErrors) return;
+
+    const authHeaders = {
+      "Content-Type": "application/json",
+      "Authorization": token ? `Bearer ${JSON.parse(token)}` : ""
+    };
+
+    try {
+      const profilePayload = { full_name: newName };
+      if (newBirthDate) {
+        profilePayload.birth_date = newBirthDate;
+        profilePayload.fecha_nacimiento = newBirthDate;
+      }
+
+      const profileResponse = await fetch("http://localhost:3000/api/auth/me", {
+        method: "PUT",
+        headers: authHeaders,
+        body: JSON.stringify(profilePayload)
+      });
+
+      const profileResult = await profileResponse.json().catch(() => ({}));
+      if (!profileResponse.ok) {
+        throw new Error(profileResult.message || "No se pudo actualizar el perfil.");
+      }
+
+      const updatedUser = profileResult.data?.user || profileResult.user || profileResult.data || {};
+      user.full_name = updatedUser.full_name ?? newName;
+      user.fullname = updatedUser.fullname ?? newName;
+      if (newBirthDate) {
+        user.birth_date = updatedUser.birth_date ?? newBirthDate;
+        user.fecha_nacimiento = updatedUser.fecha_nacimiento ?? newBirthDate;
+        user.birthdate = updatedUser.birthdate ?? newBirthDate;
+      }
+      localStorage.setItem("user", JSON.stringify(user));
+
+      actualizarAvatarYNombre(user.full_name || user.fullname || newName);
+      document.getElementById("welcome-title").textContent =
+        "¡BIENVENIDO DE VUELTA, " + (user.full_name || user.fullname || newName).toUpperCase() + "!";
+      document.getElementById("inputEmail").value = user.email || "";
+      document.getElementById("inputBirthDate").value = toDateInputValue(user.birth_date || user.fecha_nacimiento || user.birthdate || newBirthDate);
+
+      if (passwordFilled) {
+        const passwordPayload = {
+          current_password: currentPassword,
+          new_password: newPassword,
+          confirm_password: confirmPassword,
+          currentPassword,
+          newPassword,
+          confirmPassword
+        };
+
+        let passwordResponse = await fetch("http://localhost:3000/api/auth/me/password", {
+          method: "PUT",
+          headers: authHeaders,
+          body: JSON.stringify(passwordPayload)
+        });
+
+        if (!passwordResponse.ok) {
+          passwordResponse = await fetch("http://localhost:3000/api/auth/me", {
+            method: "PUT",
+            headers: authHeaders,
+            body: JSON.stringify({ ...profilePayload, ...passwordPayload })
+          });
+        }
+
+        const passwordResult = await passwordResponse.json().catch(() => ({}));
+        if (!passwordResponse.ok) {
+          throw new Error(passwordResult.message || "No se pudo actualizar la contraseña.");
+        }
+      }
+
+      document.getElementById("inputCurrentPassword").value = "";
+      document.getElementById("inputPassword").value = "";
+      document.getElementById("inputConfirmPassword").value = "";
+
+      const feedback = document.getElementById("profileFeedback");
+      feedback.textContent = passwordFilled
+        ? "Perfil y contraseña actualizados correctamente."
+        : "Perfil actualizado correctamente.";
+      feedback.classList.add("feedback-success");
+      feedback.style.display = "block";
+
+    } catch (error) {
+      console.error("Falla de red:", error);
+      const feedback = document.getElementById("profileFeedback");
+      feedback.textContent = error.message || "Error: Sin comunicación con el servidor de la API.";
+      feedback.classList.add("feedback-error");
+      feedback.style.display = "block";
+    }
+  });
+
+  document.querySelector(".logout-link").addEventListener("click", function () {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+  });
+</script>
+
+</body>
+</html>

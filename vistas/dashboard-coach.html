@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportClub - Dashboard Coach</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboard-coach.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">SPORTCLUB</div>
+        <nav class="sidebar-menu">
+            <a href="#" class="active">Inicio</a>
+            <a href="#section-metricas">Resumen General</a>
+            <a href="#section-alumnos">Listado de Alumnos</a>
+            <a href="login.html" class="logout-link">Cerrar Sesión</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>PANEL DEL ENTRENADOR</h1>
+            <div class="perfil-tag">Coach: <span id="coach-name">Cargando...</span></div>
+        </header>
+
+        <div class="content-stack">
+            
+            <!-- SECCIÓN METRICAS -->
+            <section id="section-metricas" class="card">
+                <h2 class="card-title">MÉTRICAS DEL MES</h2>
+                <div class="kpi-container">
+                    <div class="kpi-card">
+                        <div class="kpi-value">34</div>
+                        <div class="kpi-label">Alumnos Activos Asignados</div>
+                    </div>
+                    <div class="kpi-card" style="background-color: #f4f5f7; border-color: var(--border-color);">
+                        <div class="kpi-value" style="color: var(--gray-muted);">18</div>
+                        <div class="kpi-label">Clases Dirigidas</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN ALUMNOS -->
+            <section id="section-alumnos" class="card">
+                <h2 class="card-title">MIS ALUMNOS ASIGNADOS (5)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>RUT</th>
+                            <th>Nombre Completo</th>
+                            <th>Plan Activo</th>
+                            <th>Rendimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12.345.678-9</td>
+                            <td>Juan Pérez Muñoz</td>
+                            <td>Anual VIP Black</td>
+                            <td>Excelente</td>
+                        </tr>
+                        <tr>
+                            <td>18.765.432-1</td>
+                            <td>María José Delgado</td>
+                            <td>Mensual Estudiante</td>
+                            <td>Regular</td>
+                        </tr>
+                        <tr>
+                            <td>15.987.654-K</td>
+                            <td>Carlos Silva Araya</td>
+                            <td>Semestral Full</td>
+                            <td>Excelente</td>
+                        </tr>
+                        <tr>
+                            <td>20.123.456-7</td>
+                            <td>Valentina Rojas Soto</td>
+                            <td>Anual VIP Black</td>
+                            <td>Destacado</td>
+                        </tr>
+                        <tr>
+                            <td>11.456.789-0</td>
+                            <td>Pedro Fuentes Espinosa</td>
+                            <td>Pase Diario</td>
+                            <td>Inicial</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </main>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("coach-name").textContent = user.fullname;
+  }
+
+  document.querySelector(".logout-link").addEventListener("click", function () {
+    localStorage.removeItem("user");
+  });
+</script>
+</body>
+</html>

@@ -23,7 +23,7 @@ document.getElementById("formulariologin").addEventListener("submit",  async fun
   try {
     // Petición de Login a la API
     const response = await fetch("http://localhost:3000/api/auth/login", {
-      method: "post",
+      method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         email: email,
